@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:mj="http://mojarra.dev.java.net/mojarra_ext"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<h:head/>
+    
+    <h:body>
+        <div id="cabecalho">
+            <h1><ui:insert name="titulo"></ui:insert></h1>
+        </div>
+        
+		<h:panelGrid columns="2">
+			<h:form rendered="#{usuarioLogado != null}" >
+    			<p:themeSwitcher id="escolherTema" style="width:165px" value="#{temaMB.tema}">
+        			<f:selectItem itemLabel="Escolher tema" itemValue="" />
+        			<f:selectItems value="#{temaMB.temas}" var="tema" itemLabel="#{tema}" itemValue="#{tema}" />
+    				<f:ajax />
+    			</p:themeSwitcher>
+			</h:form>
+		</h:panelGrid>
+		
+        <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
+        
+        <h:form id="formMenu" rendered="#{usuarioLogado != null}">     
+	        <p:menubar>
+	   			<p:submenu label="Cadastros" icon="ui-icon-document">
+	            	<p:menuitem value="Times" action="time?faces-redirect=true"  icon="fa fa-fw fa-edit" />
+	                <p:separator />
+	            	<p:menuitem value="Campeonatos" action="campeonato?faces-redirect=true"  icon="fa fa-fw fa-edit"/>
+	            	<p:separator />
+	            	<p:menuitem value="Jogos" action="jogo?faces-redirect=true"  icon="fa fa-fw fa-edit"/>
+	            	<p:separator />
+	            	<p:menuitem value="Usuários" action="usuario?faces-redirect=true"  icon="fa fa-fw fa-edit"/>	            	
+			    	<p:separator />
+	            	<p:menuitem value="Classificação" action="classificacao?faces-redirect=true"  icon="fa fa-fw fa-edit"/>	            	
+			    </p:submenu>
+    			
+    			<p:submenu label="Outros">
+     				<p:menuitem value="Usuários de Sistema" action="usuarioLogin?faces-redirect=true"  icon="fa fa-fw fa-edit"/>	
+        			<p:menuitem value="Logout" action="#{loginMB.deslogar}" icon="fa fa-fw fa-sign-out"/>		
+    			</p:submenu>
+			</p:menubar>
+        </h:form>
+
+        <div id="conteudo">
+            <ui:insert name="conteudo">
+            </ui:insert>
+        </div>      
+    </h:body>
+</html>

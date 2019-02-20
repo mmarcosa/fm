@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputPanel>Jogos</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+
+		<h:messages globalOnly="true" />
+
+		<h:form id="jogo">
+			<p:fieldset legend="Dados do Jogo">
+				<h:panelGrid columns="2">
+					
+					<p:outputLabel value="Time:" for="idTime" />
+						<p:selectOneMenu value="#{jogoMB.jogo.idTime}" id="idTime" >
+							<f:selectItem itemLabel="Selecione o time" itemValue="#{null}"/>
+					        <f:selectItems var="time" value="#{jogoMB.times}" 
+					        			itemValue="#{time.getId()}" itemLabel="#{time.nome}"/>
+					</p:selectOneMenu>
+									
+					<p:outputLabel value="Data:" for="data" />
+					<p:calendar size="30" id="data" value="#{jogoMB.jogo.data}"
+						converter="calendarConverter" pattern="dd/MM/yyyy HH:mm:ss"/>
+					
+					<p:outputLabel value="Placar:" for="placar" />
+					<p:inputText size="30" id="placar" value="#{jogoMB.jogo.placar}" />
+					
+					<p:outputLabel value="Descrição:" for="descricao" />
+					<p:inputText size="30" id="descricao" value="#{jogoMB.jogo.descricao}"
+						required="true">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+
+					<p:outputLabel value="Escudos:" for="escudos" />
+					<p:inputText size="30" id="escudos" value="#{jogoMB.jogo.escudos}"
+						required="true">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+
+					<p:outputLabel value="Resultado:" for="resultado"  />
+						<p:selectOneMenu value="#{jogoMB.jogo.resultado}" id="resultado"  >
+							<f:selectItem itemLabel="Selecione o resultado" itemValue="#{null}" />
+					        <f:selectItems var="resultado" value="#{jogoMB.getDescricoesTipoResultado()}" 
+					        			itemValue="#{descricao.getCodigo()}" />
+						</p:selectOneMenu>
+
+					<p:outputLabel value="Times:" for="times" />
+					
+					<p:inputText size="30" id="times" value="#{jogoMB.jogo.times}"
+						required="true">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+					
+				</h:panelGrid>
+
+				<p:commandButton value="Gravar" action="#{jogoMB.gravar}"
+					process="@form" update="@form formTabelaJogos" ajax="false" />
+			</p:fieldset>
+		</h:form>
+
+		<h:form id="formTabelaJogos">
+			<p:dataTable var="jogo" value="#{jogoMB.jogos}" rows="10"
+				paginator="true">
+				
+				<f:facet name="header">
+                    	Lista de Jogos Cadastrados
+                </f:facet>
+				
+				<p:column headerText="Código" sortBy="#{jogo.id}"
+					filterBy="#{jogo.id}">
+					<h:outputText value="#{jogo.id}" />
+				</p:column> 
+
+				<p:column headerText="Data" sortBy="#{jogo.data}"
+					filterBy="#{jogo.data}">
+					<h:outputText value="#{jogo.data}" converter="calendarConverter" pattern="dd/MM/yyyy HH:mm:ss"
+                        mask="true"/>
+				</p:column>
+
+				<p:column headerText="Times" sortBy="#{jogo.times}"
+					filterBy="#{jogo.times}">
+					<h:outputText value="#{jogo.times}"/>
+				</p:column>
+
+				<p:column headerText="Escudos" sortBy="#{jogo.escudos}"
+					filterBy="#{jogo.escudos}">
+					<h:outputText value="#{jogo.escudos}" />
+				</p:column>
+
+				<p:column headerText="Descrição" sortBy="#{jogo.descricao}"
+					filterBy="#{jogo.descricao}">
+					<h:outputText value="#{jogo.descricao}" />
+				</p:column>
+
+				<p:column headerText="Resultado" >
+					<h:outputText value = "#{jogoMB.getTipoResultado(jogo.resultado)}"/>
+				</p:column>
+
+				<!-- Alterar -->
+				<p:column headerText="Alterar">
+					<p:commandButton icon="fa fa-fw fa-edit" value="Alterar"
+						update=":jogo">
+						<f:setPropertyActionListener value="#{jogo}"
+							target="#{jogoMB.jogo}" />
+					</p:commandButton>
+				</p:column>
+
+				<!-- Remover -->
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove" value="Remover"
+						action="#{jogoMB.delete(jogo)}" update="@form" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

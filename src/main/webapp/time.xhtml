@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<ui:composition template="_template.xhtml">
+
+        <ui:define name="titulo">
+                <p:outputPanel>Times</p:outputPanel>
+        </ui:define>
+
+        <ui:define name="conteudo">
+        
+        <h:messages globalOnly="true" />
+            
+        <h:form id="time">
+                <p:fieldset legend="Dados do Time">
+                    <h:panelGrid columns="2">
+					
+					<p:outputLabel value="Nome:" for="nome" />
+					<p:inputText id="nome" value="#{timeMB.time.nome}"
+						required="true">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+
+					<p:outputLabel value="Alias:" for="alias"/>
+					<p:inputText id="alias" value="#{timeMB.time.alias}"
+						required="true">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+					
+					<p:outputLabel value="Mural:" for="mural" />
+					<p:selectOneMenu id="mural" value="#{timeMB.time.muralAtivado}">
+						<f:selectItem itemLabel="Ativado" itemValue="1" />
+						<f:selectItem itemLabel="Inativado" itemValue="0" />
+					</p:selectOneMenu>
+														
+				  </h:panelGrid>
+				<p:commandButton value="Gravar" action="#{timeMB.gravar}" process="@form" update="@form formTabelaTimes" ajax="false" />
+			</p:fieldset>    
+		</h:form>
+		
+		<h:form id="formTabelaTimes">
+		  <p:dataTable var="time" value="#{timeMB.times}" rows="10" paginator="true">
+                    <f:facet name="header">
+                    	Lista de Times Cadastrados
+                    </f:facet>
+                    <p:column headerText="Código" sortBy="#{time.id}"
+                           filterBy="#{time.id}">                           
+                           <h:outputText value="#{time.id}" />
+                    </p:column>
+                    <p:column headerText="Nome" sortBy="#{time.nome}"
+                           filterBy="#{time.nome}">                           
+                           <h:outputText value="#{time.nome}" />
+                    </p:column>
+  
+  					<p:column headerText="Alias" sortBy="#{time.alias}"
+                           filterBy="#{time.alias}">
+                           <h:outputText value="#{time.alias}" />
+                    </p:column>
+  
+                    <p:column headerText="Mural Ativado">
+                           <h:outputText value="#{time.muralAtivadoString}"/>
+                    </p:column>
+					
+					<!-- Alterar  -->
+                    <p:column headerText="Alterar" >
+                     	<p:commandButton icon="fa fa-fw fa-edit" value="Alterar" update=":time">
+            				<f:setPropertyActionListener value="#{time}" target="#{timeMB.time}" />
+        				</p:commandButton>
+                    </p:column>
+                   
+                    <!-- Remover -->
+                     <p:column headerText="Remover" >
+                           <p:commandButton icon="fa fa-fw fa-remove" value="Remover" action="#{timeMB.delete(time)}" update="@form" />
+                    </p:column>
+             </p:dataTable>
+		</h:form>
+	
+	
+	</ui:define>
+</ui:composition>
+
+</html>

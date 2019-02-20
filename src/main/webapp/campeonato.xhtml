@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputPanel>Campeonatos</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+
+		<h:messages globalOnly="true" />
+
+		<h:form id="campeonato">
+			<p:fieldset legend="Dados do Campeonato">
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="Nome: " for="nome" />
+					<p:inputText id="nome" value="#{campeonatoMB.campeonato.nome}" />
+					
+					<p:outputLabel value="Alias: " for="alias" />
+					<p:inputText id="alias" value="#{campeonatoMB.campeonato.alias}" />
+					
+				</h:panelGrid>
+
+				<p:commandButton value="Gravar" action="#{campeonatoMB.gravar}"
+					process="@form" update="@form formTabelaCampeonatos" ajax="false" />
+			</p:fieldset>
+		</h:form>
+
+		<h:form id="formTabelaCampeonatos">
+			<p:dataTable var="campeonato" value="#{campeonatoMB.campeonatos}" rows="10"
+				paginator="true">
+				
+				<f:facet name="header">
+                    	Lista de Campeonatos Cadastrados
+                </f:facet>
+				
+				<p:column headerText="Código" sortBy="#{campeonato.id}"
+					filterBy="#{campeonato.id}">
+					<h:outputText value="#{campeonato.id}" />
+				</p:column>
+				
+				<p:column headerText="Nome" sortBy="#{campeonato.id}"
+					filterBy="#{campeonato.nome}">
+					<h:outputText value="#{campeonato.nome}" />
+				</p:column>
+				
+				<p:column headerText="Alias" sortBy="#{campeonato.alias}"
+					filterBy="#{campeonato.alias}">
+					<h:outputText value="#{campeonato.alias}" />
+				</p:column>
+				
+				<p:column headerText="Alterar">
+					<p:commandButton icon="fa fa-fw fa-edit" value="Alterar"
+						update=":campeonato">
+						<f:setPropertyActionListener value="#{campeonato}"
+							target="#{campeonatoMB.campeonato}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove" value="Remover"
+						action="#{campeonatoMB.delete(campeonato)}" update="@form" />
+				</p:column>
+				
+				<p:column headerText="Classificação">
+					<p:commandButton icon="fa fa-fw fa-remove" value="Remover"
+						action="#{campeonatoMB.delete(campeonato)}" update="@form" />
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

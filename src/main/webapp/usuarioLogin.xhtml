@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputPanel>Usuários adm</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+
+		<h:messages globalOnly="true" />
+
+		<h:form id="usuarioLogin">
+			<p:fieldset legend="Dados do Usuário">
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="Email:" for="email" />
+					<p:inputText id="email" value="#{usuarioLoginMB.usuarioLogin.email}"
+						required="true">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+
+					<p:outputLabel value="Senha:" for="senha" />
+					<p:password id="senha" value="#{usuarioLoginMB.usuarioLogin.senha}"	required="true" feedback="true">
+						<f:validateLength minimum="1" />
+					</p:password>
+
+				</h:panelGrid>
+
+				
+				<p:commandButton value="Gravar" action="#{usuarioLoginMB.gravar}"
+					process="@form" update="@form formTabelaUsuarios" ajax="false" />
+			</p:fieldset>
+		</h:form>
+
+		<h:form id="formTabelaUsuarios">
+			<p:dataTable var="usuarioLogin" value="#{usuarioLoginMB.usuarios}" rows="10"
+				paginator="true">
+				
+				<f:facet name="header">
+                    	Lista de Usuários Cadastrados
+                </f:facet>
+				
+				<p:column headerText="Código" sortBy="#{usuarioLogin.id}"
+					filterBy="#{usuarioLogin.id}">
+					<h:outputText value="#{usuarioLogin.id}" />
+				</p:column>
+								
+				<p:column headerText="Email" sortBy="#{usuarioLogin.email}"
+					filterBy="#{usuarioLogin.email}">
+					<h:outputText value="#{usuarioLogin.email}"/>
+				</p:column>
+
+				<!-- Alterar  -->
+				<p:column headerText="Alterar">
+					<p:commandButton icon="fa fa-fw fa-edit" value="Alterar"
+						update=":usuarioLogin">
+						<f:setPropertyActionListener value="#{usuarioLogin}"
+							target="#{usuarioLoginMB.usuarioLogin}" />
+					</p:commandButton>
+				</p:column>
+
+				<!-- Remover -->
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove" value="Remover"
+						action="#{usuarioLoginMB.delete(usuarioLogin)}" update="@form" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

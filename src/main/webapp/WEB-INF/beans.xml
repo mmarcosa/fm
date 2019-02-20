@@ -1,0 +1,7 @@
+<!-- WebContent/WEB-INF/beans.xml -->
+<beans>
+	<interceptors>
+        <class>br.com.fm.TX.GerenciadorDeTransacao</class>
+        <class>br.com.fm.interceptor.TempoDeExecucaoInterceptor</class>
+    </interceptors>
+</beans>
