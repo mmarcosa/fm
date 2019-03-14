@@ -13,6 +13,7 @@
 		<class>br.com.fm.model.Classificacao</class>
 		<class>br.com.fm.model.Campeonato</class>
 		<class>br.com.fm.model.Time</class>
+		<class>br.com.fm.model.Usuario</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

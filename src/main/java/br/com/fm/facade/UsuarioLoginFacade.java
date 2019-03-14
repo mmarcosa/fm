@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import br.com.fm.DAO.UsuarioLoginDao;
+import br.com.fm.DAO.UsuarioLoginDAO;
 import br.com.fm.model.UsuarioLogin;
 
 public class UsuarioLoginFacade implements Serializable{
@@ -13,7 +13,7 @@ public class UsuarioLoginFacade implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Inject 
-	private UsuarioLoginDao dao;
+	private UsuarioLoginDAO dao;
 	
 	public void save(UsuarioLogin usuarioLogin) {
 		dao.save(usuarioLogin);

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputPanel>Usuários</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:messages globalOnly="true" />
+
+
+		<h:form id="formTabelaUsuarios">
+			<p:dataTable var="usuario" value="#{usuarioMB.usuarios}" rows="10"
+				paginator="true">
+				
+				<f:facet name="header">
+                    	Lista de Usuarios Cadastrados
+                </f:facet>
+				
+				<p:column headerText="Código" sortBy="#{usuario.id}"
+					filterBy="#{usuario.id}">
+					<h:outputText value="#{usuario.id}" />
+				</p:column> 
+
+				<p:column headerText="Nome" sortBy="#{usuario.nome}"
+					filterBy="#{usuario.nome}">
+					<h:outputText value="#{usuario.nome}" />
+				</p:column>
+
+				<p:column headerText="Time" sortBy="#{usuario.idTime}"
+					filterBy="#{usuario.idTime}">
+					<h:outputText value="#{usuario.idTime}"/>
+				</p:column>
+
+				<p:column headerText="Local" sortBy="#{usuario.local}"
+					filterBy="#{usuario.local}">
+					<h:outputText value="#{usuario.local}"/>
+				</p:column>
+
+				<p:column headerText="Email" sortBy="#{usuario.email}"
+					filterBy="#{usuario.email}">
+					<h:outputText value="#{usuario.email}" />
+				</p:column>
+
+				<p:column headerText="Status" sortBy="#{usuario.status}"
+					filterBy="#{usuario.status}">
+					<h:outputText value = "#{usuarioMB.getTipoStatus(usuario.status)}"/>
+				</p:column>
+
+				<!-- Remover -->
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove" value="Remover"
+						action="#{usuarioMB.delete(usuario)}" update="@form" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

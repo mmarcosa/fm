@@ -12,7 +12,7 @@ import javax.persistence.TypedQuery;
 import br.com.fm.model.UsuarioLogin;
 
 
-public class UsuarioLoginDao implements Serializable{
+public class UsuarioLoginDAO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
